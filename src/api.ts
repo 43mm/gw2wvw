@@ -21,9 +21,5 @@ export async function fetchWorlds(): Promise<World[]> {
     throw new Error(`Failed to fetch worlds: ${response.status}`);
   }
   const data = await response.json();
-  try {
-    return v.parse(v.array(WorldSchema), data);
-  } catch (error) {
-    throw new Error(`Failed to parse worlds: ${error.message}`);
-  }
+  return v.parse(v.array(WorldSchema), data);
 }
