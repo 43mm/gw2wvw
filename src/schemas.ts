@@ -93,3 +93,43 @@ export const MatchSchema = v.object({
   skirmishes: v.array(SkirmishSchema),
   maps: v.array(MapSchema),
 });
+
+export const MatchOverviewSchema = v.object({
+  id: v.string(),
+  worlds: CountSchema,
+  all_worlds: v.object({
+    red: v.array(v.number()),
+    blue: v.array(v.number()),
+    green: v.array(v.number()),
+  }),
+  start_time: v.string(),
+  end_time: v.string(),
+});
+
+export const MatchScoresSchema = v.object({
+  id: v.string(),
+  scores: CountSchema,
+  victory_points: CountSchema,
+  skirmishes: v.array(SkirmishSchema),
+  maps: v.array(
+    v.object({
+      id: v.number(),
+      type: MapTypeSchema,
+      scores: CountSchema,
+    }),
+  ),
+});
+
+export const MatchStatsSchema = v.object({
+  id: v.string(),
+  deaths: CountSchema,
+  kills: CountSchema,
+  maps: v.array(
+    v.object({
+      id: v.number(),
+      type: MapTypeSchema,
+      deaths: CountSchema,
+      kills: CountSchema,
+    }),
+  ),
+});

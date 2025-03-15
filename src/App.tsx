@@ -1,10 +1,10 @@
 import { useQuery } from "@tanstack/react-query";
-import { fetchMatches } from "./api";
+import { fetchAllMatchesOverview } from "./api";
 
 function App() {
   const { data: matches } = useQuery({
     queryKey: ["matches"],
-    queryFn: fetchMatches,
+    queryFn: fetchAllMatchesOverview,
   });
 
   return (
