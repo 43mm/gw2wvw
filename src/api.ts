@@ -28,9 +28,7 @@ export async function fetchMatches(): Promise<Match[]> {
 export type MatchOverview = v.InferOutput<typeof MatchOverviewSchema>;
 
 export async function fetchAllMatchesOverview(): Promise<MatchOverview[]> {
-  const response = await fetch(
-    `${API_URL}/wvw/matches/overview?ids=1-1,1-2,1-3,1-4,1-5,2-1,2-2,2-3,2-4,2-5`,
-  );
+  const response = await fetch(`${API_URL}/wvw/matches/overview?ids=all`);
   if (!response.ok) {
     throw new Error(`Failed to fetch all matches overview: ${response.status}`);
   }

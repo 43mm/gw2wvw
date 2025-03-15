@@ -3,11 +3,13 @@ import { fetchAllMatchesOverview, MatchOverview } from "./api";
 import { WORLDS } from "./data/worlds";
 
 function selectWorldIds(matches: MatchOverview[]) {
-  return matches.flatMap((match) =>
-    Object.values(match.all_worlds)
-      .flat()
-      .filter((id) => id.toString().length === 5),
-  );
+  return matches
+    .sort((a, b) => a.id.localeCompare(b.id))
+    .flatMap((match) =>
+      Object.values(match.all_worlds)
+        .flat()
+        .filter((id) => id.toString().length === 5),
+    );
 }
 
 function App() {
