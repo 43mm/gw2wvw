@@ -1,9 +1,14 @@
 import * as v from "valibot";
-import { WorldSchema, MatchSchema, MatchOverviewSchema } from "./schemas";
+import {
+  Match,
+  MatchOverview,
+  MatchOverviewSchema,
+  MatchSchema,
+  World,
+  WorldSchema,
+} from "./schemas";
 
 const API_URL = "https://api.guildwars2.com/v2";
-
-type World = v.InferOutput<typeof WorldSchema>;
 
 export async function fetchWorlds(): Promise<World[]> {
   const response = await fetch(`${API_URL}/worlds?ids=all&lang=en`);
@@ -14,8 +19,6 @@ export async function fetchWorlds(): Promise<World[]> {
   return v.parse(v.array(WorldSchema), data);
 }
 
-type Match = v.InferOutput<typeof MatchSchema>;
-
 export async function fetchMatches(): Promise<Match[]> {
   const response = await fetch(`${API_URL}/wvw/matches?ids=all`);
   if (!response.ok) {
@@ -24,8 +27,6 @@ export async function fetchMatches(): Promise<Match[]> {
   const data = await response.json();
   return v.parse(v.array(MatchSchema), data);
 }
-
-export type MatchOverview = v.InferOutput<typeof MatchOverviewSchema>;
 
 export async function fetchAllMatchesOverview(): Promise<MatchOverview[]> {
   const response = await fetch(`${API_URL}/wvw/matches/overview?ids=all`);

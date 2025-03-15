@@ -11,6 +11,7 @@ export const WorldSchema = v.object({
     v.literal("Full"),
   ]),
 });
+export type World = v.InferOutput<typeof WorldSchema>;
 
 const TeamSchema = v.union([
   v.literal("Red"),
@@ -18,11 +19,12 @@ const TeamSchema = v.union([
   v.literal("Green"),
 ]);
 
-const CountSchema = v.object({
+const TeamCountSchema = v.object({
   red: v.number(),
   blue: v.number(),
   green: v.number(),
 });
+export type TeamCount = v.InferOutput<typeof TeamCountSchema>;
 
 const MapTypeSchema = v.union([
   v.literal("Center"),
@@ -33,11 +35,11 @@ const MapTypeSchema = v.union([
 
 const SkirmishSchema = v.object({
   id: v.number(),
-  scores: CountSchema,
+  scores: TeamCountSchema,
   map_scores: v.array(
     v.object({
       type: MapTypeSchema,
-      scores: CountSchema,
+      scores: TeamCountSchema,
     }),
   ),
 });
@@ -45,7 +47,7 @@ const SkirmishSchema = v.object({
 const MapSchema = v.object({
   id: v.number(),
   type: MapTypeSchema,
-  scores: CountSchema,
+  scores: TeamCountSchema,
   bonuses: v.array(
     v.object({
       type: v.literal("Bloodlust"),
@@ -80,23 +82,24 @@ export const MatchSchema = v.object({
   id: v.string(),
   start_time: v.string(),
   end_time: v.string(),
-  scores: CountSchema,
-  worlds: CountSchema,
+  scores: TeamCountSchema,
+  worlds: TeamCountSchema,
   all_worlds: v.object({
     red: v.array(v.number()),
     blue: v.array(v.number()),
     green: v.array(v.number()),
   }),
-  deaths: CountSchema,
-  kills: CountSchema,
-  victory_points: CountSchema,
+  deaths: TeamCountSchema,
+  kills: TeamCountSchema,
+  victory_points: TeamCountSchema,
   skirmishes: v.array(SkirmishSchema),
   maps: v.array(MapSchema),
 });
+export type Match = v.InferOutput<typeof MatchSchema>;
 
 export const MatchOverviewSchema = v.object({
   id: v.string(),
-  worlds: CountSchema,
+  worlds: TeamCountSchema,
   all_worlds: v.object({
     red: v.array(v.number()),
     blue: v.array(v.number()),
@@ -105,31 +108,32 @@ export const MatchOverviewSchema = v.object({
   start_time: v.string(),
   end_time: v.string(),
 });
+export type MatchOverview = v.InferOutput<typeof MatchOverviewSchema>;
 
 export const MatchScoresSchema = v.object({
   id: v.string(),
-  scores: CountSchema,
-  victory_points: CountSchema,
+  scores: TeamCountSchema,
+  victory_points: TeamCountSchema,
   skirmishes: v.array(SkirmishSchema),
   maps: v.array(
     v.object({
       id: v.number(),
       type: MapTypeSchema,
-      scores: CountSchema,
+      scores: TeamCountSchema,
     }),
   ),
 });
 
 export const MatchStatsSchema = v.object({
   id: v.string(),
-  deaths: CountSchema,
-  kills: CountSchema,
+  deaths: TeamCountSchema,
+  kills: TeamCountSchema,
   maps: v.array(
     v.object({
       id: v.number(),
       type: MapTypeSchema,
-      deaths: CountSchema,
-      kills: CountSchema,
+      deaths: TeamCountSchema,
+      kills: TeamCountSchema,
     }),
   ),
 });
