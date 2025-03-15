@@ -1,16 +1,26 @@
 import { useQuery } from "@tanstack/react-query";
-import { fetchAllMatchesOverview } from "./api";
+import { fetchAllMatchesOverview, MatchOverview } from "./api";
+import { WORLDS } from "./data/worlds";
+
+function selectWorldIds(matches: MatchOverview[]) {
+  return matches.flatMap((match) =>
+    Object.values(match.all_worlds)
+      .flat()
+      .filter((id) => id.toString().length === 5),
+  );
+}
 
 function App() {
-  const { data: matches } = useQuery({
+  const { data: worldIds } = useQuery({
     queryKey: ["matches"],
     queryFn: fetchAllMatchesOverview,
+    select: selectWorldIds,
   });
 
   return (
     <div>
       <h1 className="text-5xl font-bold">GW2 WvW</h1>
-      <pre>{JSON.stringify(matches, null, 2)}</pre>
+      <ul>{worldIds?.map((id) => <li key={id}>{WORLDS[id].en}</li>)}</ul>
     </div>
   );
 }
